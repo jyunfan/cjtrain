@@ -5,11 +5,10 @@ import './PracticeInterface.css'
 interface PracticeInterfaceProps {
   targetWord: string
   correctSpelling: string
-  onClear: () => void
   onNextWord: () => void
 }
 
-function PracticeInterface({ targetWord, correctSpelling, onClear, onNextWord }: PracticeInterfaceProps) {
+function PracticeInterface({ targetWord, correctSpelling, onNextWord }: PracticeInterfaceProps) {
   const [userInput, setUserInput] = useState('')
   const [showAnswer, setShowAnswer] = useState(false)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
@@ -114,14 +113,6 @@ function PracticeInterface({ targetWord, correctSpelling, onClear, onNextWord }:
     }
   }
 
-  const handleClear = () => {
-    setUserInput('')
-    setShowAnswer(false)
-    setIsCorrect(null)
-    setWaitingForNext(false)
-    onClear()
-  }
-
   const getInputClassName = () => {
     if (isCorrect === true) return 'correct'
     if (isCorrect === false) return 'incorrect'
@@ -183,9 +174,6 @@ function PracticeInterface({ targetWord, correctSpelling, onClear, onNextWord }:
 
       {/* Control Buttons */}
       <div className="controls">
-        <button onClick={handleClear} className="clear-button">
-          Clear
-        </button>
         <button onClick={checkAnswer} className="check-button" disabled={!targetWord || !userInput.trim()}>
           Check Answer
         </button>

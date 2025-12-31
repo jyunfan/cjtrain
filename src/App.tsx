@@ -37,10 +37,6 @@ function App() {
     setSelectedWord(word)
   }
 
-  const handleClear = () => {
-    setSelectedWord(null)
-  }
-
   const handleNextWord = () => {
     // Filter word bank to only include frequent words
     const filteredWords = filterByFrequentWords(wordBank, frequentWords)
@@ -73,7 +69,6 @@ function App() {
       <PracticeInterface
         targetWord={selectedWord?.word || ''}
         correctSpelling={selectedWord?.spelling || ''}
-        onClear={handleClear}
         onNextWord={handleNextWord}
       />
     </div>
