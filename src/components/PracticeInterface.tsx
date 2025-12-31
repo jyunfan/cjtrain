@@ -6,14 +6,16 @@ interface PracticeInterfaceProps {
   targetWord: string
   correctSpelling: string
   onNextWord: () => void
+  onComplete: (word: string, spelling: string, isCorrect: boolean) => void
 }
 
-function PracticeInterface({ targetWord, correctSpelling, onNextWord }: PracticeInterfaceProps) {
+function PracticeInterface({ targetWord, correctSpelling, onNextWord, onComplete }: PracticeInterfaceProps) {
   const [userInput, setUserInput] = useState('')
   const [showAnswer, setShowAnswer] = useState(false)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [waitingForNext, setWaitingForNext] = useState(false)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const completedRef = useRef(false)
 
   // Convert user input to Chinese components in real-time
   const userInputComponents = spellingToComponents(userInput)
@@ -24,6 +26,8 @@ function PracticeInterface({ targetWord, correctSpelling, onNextWord }: Practice
     setUserInput('')
     setShowAnswer(false)
     setIsCorrect(null)
+    setWaitingForNext(false)
+    completedRef.current = false
     // Auto-focus T2 after word selection
     if (targetWord && inputRef.current) {
       setTimeout(() => {
@@ -49,18 +53,26 @@ function PracticeInterface({ targetWord, correctSpelling, onNextWord }: Practice
       setIsCorrect(true)
       setShowAnswer(false)
       setWaitingForNext(true)
+      if (!completedRef.current) {
+        completedRef.current = true
+        onComplete(targetWord, correctSpelling, true)
+      }
     } else if (trimmedInput.length === trimmedCorrect.length) {
       // If length matches but content doesn't, mark as incorrect
       setIsCorrect(false)
       setShowAnswer(true)
       setWaitingForNext(true)
+      if (!completedRef.current) {
+        completedRef.current = true
+        onComplete(targetWord, correctSpelling, false)
+      }
     } else {
       // Still typing, reset state
       setIsCorrect(null)
       setShowAnswer(false)
       setWaitingForNext(false)
     }
-  }, [userInput, targetWord, correctSpelling])
+  }, [userInput, targetWord, correctSpelling, onComplete])
 
   // Listen for key press when waiting for next word
   useEffect(() => {

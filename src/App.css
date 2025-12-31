@@ -43,3 +43,56 @@
 .word-button:active {
   background: #d0d0d0;
 }
+
+.history {
+  flex: 0 0 250px;
+}
+
+.history h2 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.history-empty {
+  color: #888;
+  font-style: italic;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.history-correct {
+  background: #e8f5e9;
+  border-left: 3px solid #4caf50;
+}
+
+.history-incorrect {
+  background: #ffebee;
+  border-left: 3px solid #f44336;
+}
+
+.history-word {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.history-spelling {
+  color: #666;
+}

@@ -8,10 +8,17 @@ import {
 } from './utils/wordBank'
 import './App.css'
 
+interface HistoryEntry {
+  word: string
+  spelling: string
+  isCorrect: boolean
+}
+
 function App() {
   const [wordBank, setWordBank] = useState<WordEntry[]>([])
   const [frequentWords, setFrequentWords] = useState<Set<string>>(new Set())
   const [selectedWord, setSelectedWord] = useState<WordEntry | null>(null)
+  const [history, setHistory] = useState<HistoryEntry[]>([])
 
   useEffect(() => {
     // Load both word bank and frequent words in parallel
@@ -46,6 +53,10 @@ function App() {
     }
   }
 
+  const handleComplete = (word: string, spelling: string, isCorrect: boolean) => {
+    setHistory(prev => [{ word, spelling, isCorrect }, ...prev])
+  }
+
   return (
     <div className="app">
       <div className="word-bank">
@@ -70,7 +81,26 @@ function App() {
         targetWord={selectedWord?.word || ''}
         correctSpelling={selectedWord?.spelling || ''}
         onNextWord={handleNextWord}
+        onComplete={handleComplete}
       />
+      <div className="history">
+        <h2>History</h2>
+        <div className="history-list">
+          {history.length === 0 ? (
+            <p className="history-empty">No history yet</p>
+          ) : (
+            history.map((entry, index) => (
+              <div
+                key={index}
+                className={`history-item ${entry.isCorrect ? 'history-correct' : 'history-incorrect'}`}
+              >
+                <span className="history-word">{entry.word}</span>
+                <span className="history-spelling">{entry.spelling}</span>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
     </div>
   )
 }
