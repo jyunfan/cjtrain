@@ -5,7 +5,7 @@ export interface WordEntry {
 
 export async function loadWordBank(): Promise<WordEntry[]> {
   try {
-    const response = await fetch('/data/Cangjie5_TC.txt')
+    const response = await fetch(`${import.meta.env.BASE_URL}data/Cangjie5_TC.txt`)
     if (!response.ok) {
       throw new Error(`Failed to load word bank: ${response.statusText}`)
     }
@@ -24,7 +24,7 @@ export async function loadWordBank(): Promise<WordEntry[]> {
 
 export async function loadFrequentWords(): Promise<Set<string>> {
   try {
-    const response = await fetch('/data/freqword.txt')
+    const response = await fetch(`${import.meta.env.BASE_URL}data/freqword.txt`)
     if (!response.ok) {
       throw new Error(`Failed to load frequent words: ${response.statusText}`)
     }
